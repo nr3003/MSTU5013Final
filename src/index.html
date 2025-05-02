@@ -1,0 +1,152 @@
+<body>
+  <div id="app">
+    <!-- Mobile App Container -->
+    <div class="main-container">
+      <div class="scrollable-content">
+        <!-- Home Page -->
+        <div v-if="currentPage === 'newHome'">
+          <div class="greeting-container">
+            <h1 class="greeting">🏋️ Hello {{ user.name || 'User' }},</h1>
+            <p class="sub-greeting">Track your daily activity!</p>
+          </div>
+
+          <!-- Calendar Carousel -->
+          <div class="calendar-carousel">
+            <div v-for="(day, index) in weekDays" :key="index" :class="['day-box', { today: day.isToday, completed: day.completed }]">
+              <div class="day-label">{{ day.label }}</div>
+              <div class="day-name">{{ day.name }}</div>
+              <div v-if="day.completed" class="checkmark">✔️</div>
+            </div>
+          </div>
+
+          <!-- Exercise GIF -->
+          <div class="gif-container">
+            <img src="https://i.pinimg.com/originals/20/08/b8/2008b8d33e0326c9df050672f36c79d0.gif" alt="Running gif" width="270">
+          </div>
+
+          <div class="summary-card">
+            <div class="thriving-section">
+              <h2>Thriving ({{ thrivingPercentage }}%)</h2>
+              <div class="progress-bar">
+                <div class="progress-fill" :style="{ width: thrivingPercentage + '%' }"></div>
+              </div>
+            </div>
+
+            <div class="metric-grid">
+              <div class="metric-box">
+                <p><span class="icon">🛏️</span> Sleep</p>
+                <p>{{ user.sleepHours || '--' }} hrs</p>
+              </div>
+              <div class="metric-box">
+                <p><span class="icon">🧍</span> Stand</p>
+                <p>{{ user.standHours || '--' }} hrs</p>
+              </div>
+              <div class="metric-box">
+                <p><span class="icon">👣</span> Steps</p>
+                <p>{{ user.steps || '--' }}</p>
+              </div>
+              <div class="metric-box">
+                <p><span class="icon">💦</span> Energy</p>
+                <p>{{ user.caloriesConsumed || '--' }} kcal</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Record Page -->
+        <div v-if="currentPage === 'record'" class="record-container">
+          <h2>Log Your Workout</h2>
+
+          <!-- Workout Type -->
+          <label for="type">Workout Type</label>
+          <select v-model="newWorkout.type" id="type">
+            <option disabled value="">Select a category</option>
+            <option>Core</option>
+            <option>Upper Body</option>
+            <option>Lower Body</option>
+            <option>Cardio</option>
+          </select>
+
+          <!-- Workout Name -->
+          <label for="name">Workout Name</label>
+          <input v-model="newWorkout.name" id="name" placeholder="Workout Name" />
+
+          <!-- Duration -->
+          <label for="duration">Duration (min)</label>
+          <input v-model.number="newWorkout.duration" id="duration" type="number" min="1" placeholder="Duration (min)" />
+
+          <!-- Calories -->
+          <label for="calories">Calories Consumed (kcal)</label>
+          <input v-model.number="newWorkout.calories" id="calories" type="number" min="1" placeholder="Calories" />
+
+          <!-- Date -->
+          <label for="date">Date</label>
+          <input v-model="newWorkout.date" id="date" type="date" />
+
+          <!-- Add Button -->
+          <button @click="addWorkout">Add Workout</button>
+
+          <!-- Workout History -->
+          <h3>Workout History</h3>
+          <div id="workoutHistory" class="history-grid">
+            <div class="workout-card" v-for="workout in workouts" :key="workout.id">
+              <p><strong>{{ workout.type }}</strong> – {{ workout.name }}</p>
+              <p>{{ workout.duration }} min | {{ workout.calories }} kcal</p>
+              <p><small>{{ formatDate(workout.date) }}</small></p>
+              <button @click="deleteWorkout(workout.id)">❌</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div v-if="currentPage === 'profile'" class="profile-container">
+          <h2>Profile</h2>
+          <p style="font-size: 14px; color: #4A90E2;">Enter your info & Set your goal now!</p>
+
+          <div class="form-group">
+            <input v-model="user.name" placeholder="Name" />
+          </div>
+
+          <div class="form-group">
+            <input v-model="user.age" placeholder="Age" />
+          </div>
+
+          <div class="form-group">
+            <input v-model.number="user.sleepHours" type="number" placeholder="Sleep (hrs)" />
+          </div>
+
+          <div class="form-group">
+            <input v-model.number="user.standHours" type="number" placeholder="Stand (hrs)" />
+          </div>
+
+          <div class="form-group">
+            <input v-model.number="user.steps" type="number" placeholder="Steps" />
+          </div>
+
+          <div class="form-group">
+            <input v-model.number="user.workoutGoal" type="number" placeholder="Daily Workout Goal (kcal)" />
+          </div>
+
+          <button class="save-button" @click="saveProfile">Save Profile</button>
+          <button class="back-button" @click="currentPage = 'newHome'">Back to Home</button>
+        </div>
+      </div>
+
+      <!-- Bottom Navigation -->
+      <div class="bottom-nav">
+        <div class="nav-item" @click="currentPage = 'newHome'">
+          <div class="nav-icon">🏠</div>
+          <div class="nav-label">Home</div>
+        </div>
+        <div class="nav-item" @click="currentPage = 'record'">
+          <div class="nav-icon">✍🏻</div>
+          <div class="nav-label">Record</div>
+        </div>
+        <div class="nav-item" @click="currentPage = 'profile'">
+          <div class="nav-icon">👤</div>
+          <div class="nav-label">Profile</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
