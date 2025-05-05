@@ -1,4 +1,3 @@
-/* Your original styles with enhancements */
 html, body {
   margin: 0;
   padding: 0;
@@ -33,7 +32,6 @@ html, body {
   scrollbar-color: #f1f1f1;
 }
 
-/* Your original components with some enhancements */
 .greeting-container {
   text-align: left;
   margin-bottom: 20px;
@@ -182,7 +180,6 @@ html, body {
   font-size: 20px;
 }
 
-/* Enhanced form elements */
 .form-group {
   margin-bottom: 15px;
 }
@@ -237,7 +234,7 @@ button {
   transform: translateY(-1px);
 }
 
-/* Enhanced workout cards */
+/* workout cards */
 .workout-card {
   background: white;
   border-radius: 10px;
@@ -291,7 +288,7 @@ button {
 }
 
 
-/* Bottom Navigation - Fully Functional */
+/* Bottom Navigation */
 .bottom-nav {
   position: absolute;
   bottom: 20px;
@@ -363,7 +360,6 @@ button {
   width: 20px;
 }
 
-/* Responsive adjustments */
 @media (max-width: 400px) {
   .bottom-nav {
     bottom: 10px;
